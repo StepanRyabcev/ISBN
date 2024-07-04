@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QTableView" name="tableView">
+   <widget class="QTableView" name="table">
     <property name="geometry">
      <rect>
       <x>20</x>
@@ -37,7 +37,7 @@
      <string>Добавить</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="delete_2">
     <property name="geometry">
      <rect>
       <x>120</x>
@@ -50,7 +50,7 @@
      <string>Удалить</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_3">
+   <widget class="QPushButton" name="search">
     <property name="geometry">
      <rect>
       <x>220</x>
@@ -61,6 +61,19 @@
     </property>
     <property name="text">
      <string>Поиск</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="refresh">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>0</y>
+      <width>83</width>
+      <height>29</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Обновить</string>
     </property>
    </widget>
   </widget>
@@ -77,30 +90,30 @@
     <property name="title">
      <string>Файл</string>
     </property>
-    <addaction name="action"/>
-    <addaction name="action_2"/>
+    <addaction name="save"/>
+    <addaction name="load"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
      <string>Правка</string>
     </property>
-    <addaction name="action_3"/>
+    <addaction name="clear"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="action">
+  <action name="save">
    <property name="text">
     <string>Сохранить в</string>
    </property>
   </action>
-  <action name="action_2">
+  <action name="load">
    <property name="text">
     <string>Загрузить</string>
    </property>
   </action>
-  <action name="action_3">
+  <action name="clear">
    <property name="text">
     <string>Очистить</string>
    </property>

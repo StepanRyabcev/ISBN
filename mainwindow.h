@@ -22,6 +22,8 @@ private slots:
 
     void on_AddNew_clicked();
 
+    void on_refresh_clicked();
+
 private:
     Ui::MainWindow *ui;
     ISBNBook* bookclass;

@@ -3,12 +3,15 @@
 
 #include <QString>
 #include <QVector>
+#include <QStandardItemModel>
 
 class ISBNBook
 {
 public:
     ISBNBook();
+    ~ISBNBook();
     void addNew(QString, QString, QString);
+    QStandardItemModel* getTable();
 
 private:
     struct BookInfo
@@ -16,6 +19,7 @@ private:
         QString ISBN, name, creator;
     };
     QVector<BookInfo> bookvector;
+    QStandardItemModel *tablemodel;
 };
 
 #endif // ISBNBOOK_H
