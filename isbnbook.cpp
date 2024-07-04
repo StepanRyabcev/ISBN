@@ -1,6 +1,7 @@
 #include "isbnbook.h"
 #include <QDebug>
 #include <QStandardItemModel>
+#include <QRandomGenerator>
 
 ISBNBook::ISBNBook() {}
 
@@ -16,6 +17,7 @@ void ISBNBook::addNew(QString ISBN_in, QString Name_in, QString Creator_in)
     temp.ISBN = ISBN_in; //временно!!! Надо будет сделать функцию
     temp.name = Name_in;
     temp.creator = Creator_in;
+    GenerateISBN(temp);
     bookvector.push_back(temp);
 }
 
@@ -34,4 +36,29 @@ QStandardItemModel* ISBNBook::getTable()
     tablemodel->setHeaderData(1, Qt::Horizontal, "Название");
     tablemodel->setHeaderData(2, Qt::Horizontal, "Жанр");
     return tablemodel;
+}
+
+void ISBNBook::GenerateISBN(BookInfo &bookInf)
+{
+    qint32 seed = 1;
+    if (!bookInf.ISBN.isEmpty())
+    {
+        for (int i = 0; i < bookInf.ISBN.size(); i++)
+        {
+            seed = bookInf.ISBN[i].unicode() * seed;
+            seed = bookInf.ISBN[i].unicode() + seed;
+        }
+    }
+    else
+    {
+        QString seedstr = bookInf.name + bookInf.creator;
+        for (int i = 0; i < seedstr.size(); i++)
+        {
+            seed = seedstr[i].unicode() * seed;
+            seed = seedstr[i].unicode() + seed;
+        }
+    }
+    QRandomGenerator random(seed);
+    bookInf.ISBN = QString::number(random.generate() % 1000) + "-" + QString::number(random.generate() % 1000);
+
 }

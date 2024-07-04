@@ -20,6 +20,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_AddNew_clicked()
 {
     NewDialog addnewdialog(bookclass);
+    QObject::connect(&addnewdialog, QDialog::accepted, this, MainWindow::on_refresh_clicked);
     addnewdialog.exec();
 }
 

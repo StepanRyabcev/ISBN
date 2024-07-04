@@ -20,6 +20,7 @@ private:
     };
     QVector<BookInfo> bookvector;
     QStandardItemModel *tablemodel;
+    void GenerateISBN(BookInfo&);
 };
 
 #endif // ISBNBOOK_H
