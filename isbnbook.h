@@ -4,6 +4,7 @@
 #include <QString>
 #include <QVector>
 #include <QStandardItemModel>
+#include <QStack>
 
 class ISBNBook
 {
@@ -24,6 +25,7 @@ private:
     QVector<BookInfo> bookvector;
     QStandardItemModel *tablemodel = nullptr;
     QStandardItemModel *searchresult = nullptr;
+    QStack<QStandardItem*> items;
     void GenerateISBN(BookInfo&);
 };
 

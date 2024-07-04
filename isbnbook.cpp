@@ -11,6 +11,8 @@ ISBNBook::ISBNBook() {}
 
 ISBNBook::~ISBNBook()
 {
+    while (!items.isEmpty())
+        delete items.pop();
     if (tablemodel != nullptr)
        delete tablemodel;
     if (searchresult != nullptr)
@@ -20,7 +22,7 @@ ISBNBook::~ISBNBook()
 void ISBNBook::addNew(QString ISBN_in, QString Name_in, QString Creator_in)
 {
     BookInfo temp;
-    temp.ISBN = ISBN_in; //временно!!! Надо будет сделать функцию
+    temp.ISBN = ISBN_in;
     temp.name = Name_in;
     temp.creator = Creator_in;
     GenerateISBN(temp);
@@ -30,12 +32,27 @@ void ISBNBook::addNew(QString ISBN_in, QString Name_in, QString Creator_in)
         if (bookvector[i].ISBN == temp.ISBN)
         {
             QMessageBox msgBox;
-            msgBox.setWindowTitle("Внимание");
+            msgBox.setWindowTitle("Возникла коллизия");
             msgBox.setText("Книга с ISNB " + temp.ISBN + " уже существует");
-            msgBox.setInformativeText("Книга не была добавлена");
-            msgBox.setIcon(QMessageBox::Warning);
-            msgBox.exec();
-            canadd = false;
+            msgBox.setInformativeText("Вы хотите сгенерировать другое чисто ISNB?");
+            msgBox.setIcon(QMessageBox::Question);
+            msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            msgBox.setDefaultButton(QMessageBox::Yes);
+            QPushButton *buttonY = qobject_cast<QPushButton *>(msgBox.button(QMessageBox::Yes));
+            buttonY->setText("Да");
+            QPushButton *buttonN = qobject_cast<QPushButton *>(msgBox.button(QMessageBox::No));
+            buttonN->setText("Нет");
+            msgBox.setIcon(QMessageBox::Question);
+            if (msgBox.exec() == QMessageBox::Yes)
+            {
+                do
+                {
+                    temp.ISBN += QString::number(QTime::currentTime().msec());
+                    GenerateISBN(temp);
+                }while (bookvector[i].ISBN == temp.ISBN);
+            }
+            else
+                canadd = false;
         }
     }
     if (canadd)
@@ -44,13 +61,23 @@ void ISBNBook::addNew(QString ISBN_in, QString Name_in, QString Creator_in)
 
 QStandardItemModel* ISBNBook::getTable()
 {
+    while (!items.isEmpty())
+    {
+        delete items.pop();
+    }
     if (tablemodel != nullptr)
         delete tablemodel;
     tablemodel = new QStandardItemModel(bookvector.size(), 3);
     for (int i = 0; i < bookvector.size(); i++)
     {
-        tablemodel->setItem(i, 0, new QStandardItem(bookvector[i].ISBN));
-        tablemodel->setItem(i, 1, new QStandardItem(bookvector[i].name));
+        QStandardItem *pntr = new QStandardItem(bookvector[i].ISBN);
+        tablemodel->setItem(i, 0, pntr);
+        items.push(pntr);
+        pntr = new QStandardItem(bookvector[i].name);
+        tablemodel->setItem(i, 1, pntr);
+        items.push(pntr);
+        pntr = new QStandardItem(bookvector[i].creator);
+        items.push(pntr);
         tablemodel->setItem(i, 2, new QStandardItem(bookvector[i].creator));
     }
     tablemodel->setHeaderData(0, Qt::Horizontal, "ISBN");
@@ -144,9 +171,15 @@ QStandardItemModel* ISBNBook::search(QString ISBN)
             if (searchresult != nullptr)
                 delete searchresult;
             searchresult = new QStandardItemModel(1, 3);
-            searchresult->setItem(0, 0, new QStandardItem(bookvector[i].ISBN));
-            searchresult->setItem(0, 1, new QStandardItem(bookvector[i].name));
-            searchresult->setItem(0, 2, new QStandardItem(bookvector[i].creator));
+            QStandardItem *pntr = new QStandardItem(bookvector[i].ISBN);
+            items.push(pntr);
+            searchresult->setItem(0, 0, pntr);
+            pntr = new QStandardItem(bookvector[i].name);
+            items.push(pntr);
+            searchresult->setItem(0, 1, pntr);
+            pntr = new QStandardItem(bookvector[i].creator);
+            items.push(pntr);
+            searchresult->setItem(0, 2, pntr);
             tablemodel->setHeaderData(0, Qt::Horizontal, "ISBN");
             tablemodel->setHeaderData(1, Qt::Horizontal, "Название");
             tablemodel->setHeaderData(2, Qt::Horizontal, "Автор");
