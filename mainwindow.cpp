@@ -11,6 +11,8 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle("ISBN");
     bookclass = new ISBNBook;
     QObject::connect(ui->clear, &QAction::triggered, this, MainWindow::earase);
+    bookclass->fillWithRandom();
+    on_refresh_clicked();
 }
 
 MainWindow::~MainWindow()

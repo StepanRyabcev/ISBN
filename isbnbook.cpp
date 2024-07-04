@@ -5,6 +5,7 @@
 #include <QMessageBox>
 #include <QAbstractButton>
 #include <QPushButton>
+#include <QTime>
 
 ISBNBook::ISBNBook() {}
 
@@ -52,7 +53,7 @@ QStandardItemModel* ISBNBook::getTable()
     }
     tablemodel->setHeaderData(0, Qt::Horizontal, "ISBN");
     tablemodel->setHeaderData(1, Qt::Horizontal, "Название");
-    tablemodel->setHeaderData(2, Qt::Horizontal, "Жанр");
+    tablemodel->setHeaderData(2, Qt::Horizontal, "Автор");
     return tablemodel;
 }
 
@@ -115,5 +116,19 @@ void ISBNBook::deleteBook(QString ISBN)
         {
             bookvector.remove(index);
         }
+    }
+}
+
+void ISBNBook::fillWithRandom()
+{
+    QRandomGenerator random(QTime::currentTime().msec());
+    int numberOfBooks = random.bounded(1, 50);
+    BookInfo temp;
+    for (int i = 1; i <= numberOfBooks; i++)
+    {
+        temp.name = "Книга " + QString::number(i);
+        temp.creator = "Автор " + QString::number(i);
+        GenerateISBN(temp);
+        bookvector.push_back(temp);
     }
 }

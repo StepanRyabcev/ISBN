@@ -13,6 +13,7 @@ public:
     void addNew(QString, QString, QString);
     QStandardItemModel* getTable();
     void deleteBook(QString);
+    void fillWithRandom();
 
 private:
     struct BookInfo
