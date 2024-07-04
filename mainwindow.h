@@ -28,6 +28,8 @@ private slots:
 
     void earase();
 
+    void on_search_clicked();
+
 private:
     Ui::MainWindow *ui;
     ISBNBook* bookclass;

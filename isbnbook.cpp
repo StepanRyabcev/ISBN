@@ -13,6 +13,8 @@ ISBNBook::~ISBNBook()
 {
     if (tablemodel != nullptr)
        delete tablemodel;
+    if (searchresult != nullptr)
+        delete searchresult;
 }
 
 void ISBNBook::addNew(QString ISBN_in, QString Name_in, QString Creator_in)
@@ -42,7 +44,7 @@ void ISBNBook::addNew(QString ISBN_in, QString Name_in, QString Creator_in)
 
 QStandardItemModel* ISBNBook::getTable()
 {
-    if (!tablemodel)
+    if (tablemodel != nullptr)
         delete tablemodel;
     tablemodel = new QStandardItemModel(bookvector.size(), 3);
     for (int i = 0; i < bookvector.size(); i++)
@@ -128,7 +130,27 @@ void ISBNBook::fillWithRandom()
     {
         temp.name = "Книга " + QString::number(i);
         temp.creator = "Автор " + QString::number(i);
+        temp.ISBN = QString::number(random.generate());
         GenerateISBN(temp);
         bookvector.push_back(temp);
     }
+}
+
+QStandardItemModel* ISBNBook::search(QString ISBN)
+{
+    for (int i = 0; i < bookvector.size(); i++)
+        if (ISBN == bookvector[i].ISBN)
+        {
+            if (searchresult != nullptr)
+                delete searchresult;
+            searchresult = new QStandardItemModel(1, 3);
+            searchresult->setItem(0, 0, new QStandardItem(bookvector[i].ISBN));
+            searchresult->setItem(0, 1, new QStandardItem(bookvector[i].name));
+            searchresult->setItem(0, 2, new QStandardItem(bookvector[i].creator));
+            tablemodel->setHeaderData(0, Qt::Horizontal, "ISBN");
+            tablemodel->setHeaderData(1, Qt::Horizontal, "Название");
+            tablemodel->setHeaderData(2, Qt::Horizontal, "Автор");
+            return searchresult;
+        }
+    return nullptr;
 }

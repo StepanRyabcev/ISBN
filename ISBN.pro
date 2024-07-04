@@ -13,18 +13,24 @@ SOURCES += \
     isbnbook.cpp \
     main.cpp \
     mainwindow.cpp \
-    newdialog.cpp
+    newdialog.cpp \
+    searchdialog.cpp \
+    searchresults.cpp
 
 HEADERS += \
     deletedialog.h \
     isbnbook.h \
     mainwindow.h \
-    newdialog.h
+    newdialog.h \
+    searchdialog.h \
+    searchresults.h
 
 FORMS += \
     deletedialog.ui \
     mainwindow.ui \
-    newdialog.ui
+    newdialog.ui \
+    searchdialog.ui \
+    searchresults.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "newdialog.h"
 #include "deletedialog.h"
+#include "searchdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -46,3 +47,10 @@ void MainWindow::earase()
     delete bookclass;
     bookclass = new ISBNBook;
 }
+
+void MainWindow::on_search_clicked()
+{
+    SearchDialog searchdialog(bookclass);
+    searchdialog.exec();
+}
+

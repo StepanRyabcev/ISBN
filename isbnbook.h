@@ -14,6 +14,7 @@ public:
     QStandardItemModel* getTable();
     void deleteBook(QString);
     void fillWithRandom();
+    QStandardItemModel* search(QString);
 
 private:
     struct BookInfo
@@ -22,6 +23,7 @@ private:
     };
     QVector<BookInfo> bookvector;
     QStandardItemModel *tablemodel = nullptr;
+    QStandardItemModel *searchresult = nullptr;
     void GenerateISBN(BookInfo&);
 };
 
