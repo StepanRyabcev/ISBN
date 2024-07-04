@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowTitle("ISBN");
+    bookclass = new ISBNBook;
 }
 
 MainWindow::~MainWindow()
@@ -17,7 +18,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_AddNew_clicked()
 {
-    NewDialog addnewdialog;
+    NewDialog addnewdialog(bookclass);
     addnewdialog.exec();
 }
 

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "isbnbook.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -23,5 +24,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    ISBNBook* bookclass;
 };
 #endif // MAINWINDOW_H
