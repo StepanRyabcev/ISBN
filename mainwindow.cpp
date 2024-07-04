@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     setWindowTitle("ISBN");
     bookclass = new ISBNBook;
+    QObject::connect(ui->clear, &QAction::triggered, this, MainWindow::earase);
 }
 
 MainWindow::~MainWindow()
@@ -38,3 +39,8 @@ void MainWindow::on_delete_2_clicked()
     deldialog.exec();
 }
 
+void MainWindow::earase()
+{
+    delete bookclass;
+    bookclass = new ISBNBook;
+}

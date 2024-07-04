@@ -10,8 +10,8 @@ ISBNBook::ISBNBook() {}
 
 ISBNBook::~ISBNBook()
 {
-    if (!tablemodel)
-        delete tablemodel;
+    if (tablemodel != nullptr)
+       delete tablemodel;
 }
 
 void ISBNBook::addNew(QString ISBN_in, QString Name_in, QString Creator_in)

@@ -20,7 +20,7 @@ private:
         QString ISBN, name, creator;
     };
     QVector<BookInfo> bookvector;
-    QStandardItemModel *tablemodel;
+    QStandardItemModel *tablemodel = nullptr;
     void GenerateISBN(BookInfo&);
 };
 

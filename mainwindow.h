@@ -26,6 +26,8 @@ private slots:
 
     void on_delete_2_clicked();
 
+    void earase();
+
 private:
     Ui::MainWindow *ui;
     ISBNBook* bookclass;
