@@ -3,6 +3,7 @@
 #include "newdialog.h"
 #include "deletedialog.h"
 #include "searchdialog.h"
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -12,6 +13,8 @@ MainWindow::MainWindow(QWidget *parent)
     setWindowTitle("ISBN");
     bookclass = new ISBNBook;
     QObject::connect(ui->clear, &QAction::triggered, this, MainWindow::earase);
+    QObject::connect(ui->save, &QAction::triggered, this, MainWindow::save);
+    QObject::connect(ui->load, &QAction::triggered, this, MainWindow::load);
     bookclass->fillWithRandom();
     on_refresh_clicked();
 }
@@ -52,5 +55,19 @@ void MainWindow::on_search_clicked()
 {
     SearchDialog searchdialog(bookclass);
     searchdialog.exec();
+}
+
+void MainWindow::save()
+{
+    QString filename = QFileDialog::getSaveFileName(this, ("Open File"), "/home", ("Binary File(*.bin)"));
+    bookclass->savetofile(filename);
+}
+
+void MainWindow::load()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, ("Open File"), "/home", ("Binary File(*.bin)"));
+    earase();
+    bookclass->loadfromfile(fileName);
+    on_refresh_clicked();
 }
 

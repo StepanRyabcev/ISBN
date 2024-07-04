@@ -6,6 +6,7 @@
 #include <QAbstractButton>
 #include <QPushButton>
 #include <QTime>
+#include <QFile>
 
 ISBNBook::ISBNBook() {}
 
@@ -186,4 +187,32 @@ QStandardItemModel* ISBNBook::search(QString ISBN)
             return searchresult;
         }
     return nullptr;
+}
+
+void ISBNBook::savetofile(QString filename)
+{
+    QFile file(filename);
+    QDataStream stream(&file);
+    if (file.open(QIODevice::WriteOnly))
+    {
+    for (int i = 0; i < bookvector.size(); i++)
+        stream << bookvector[i].ISBN << bookvector[i].name << bookvector[i].creator;
+    }
+    file.close();
+}
+
+void ISBNBook::loadfromfile(QString filename)
+{
+    QFile file(filename);
+    QDataStream stream(&file);
+    if (file.open(QIODevice::ReadOnly))
+    {
+        BookInfo temp;
+        while(!stream.atEnd())
+        {
+            stream >> temp.ISBN >> temp.name >> temp.creator;
+            bookvector.push_back(temp);
+        }
+    }
+    file.close();
 }

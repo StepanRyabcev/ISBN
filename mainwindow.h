@@ -30,6 +30,10 @@ private slots:
 
     void on_search_clicked();
 
+    void save();
+
+    void load();
+
 private:
     Ui::MainWindow *ui;
     ISBNBook* bookclass;

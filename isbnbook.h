@@ -16,6 +16,8 @@ public:
     void deleteBook(QString);
     void fillWithRandom();
     QStandardItemModel* search(QString);
+    void savetofile(QString);
+    void loadfromfile(QString);
 
 private:
     struct BookInfo
