@@ -12,6 +12,7 @@ public:
     ~ISBNBook();
     void addNew(QString, QString, QString);
     QStandardItemModel* getTable();
+    void deleteBook(QString);
 
 private:
     struct BookInfo

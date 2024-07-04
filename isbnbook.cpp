@@ -2,6 +2,9 @@
 #include <QDebug>
 #include <QStandardItemModel>
 #include <QRandomGenerator>
+#include <QMessageBox>
+#include <QAbstractButton>
+#include <QPushButton>
 
 ISBNBook::ISBNBook() {}
 
@@ -18,7 +21,22 @@ void ISBNBook::addNew(QString ISBN_in, QString Name_in, QString Creator_in)
     temp.name = Name_in;
     temp.creator = Creator_in;
     GenerateISBN(temp);
-    bookvector.push_back(temp);
+    bool canadd = true;
+    for (int i = 0; i < bookvector.size(); i++)
+    {
+        if (bookvector[i].ISBN == temp.ISBN)
+        {
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("Внимание");
+            msgBox.setText("Книга с ISNB " + temp.ISBN + " уже существует");
+            msgBox.setInformativeText("Книга не была добавлена");
+            msgBox.setIcon(QMessageBox::Warning);
+            msgBox.exec();
+            canadd = false;
+        }
+    }
+    if (canadd)
+        bookvector.push_back(temp);
 }
 
 QStandardItemModel* ISBNBook::getTable()
@@ -60,5 +78,42 @@ void ISBNBook::GenerateISBN(BookInfo &bookInf)
     }
     QRandomGenerator random(seed);
     bookInf.ISBN = QString::number(random.generate() % 1000) + "-" + QString::number(random.generate() % 1000);
+}
 
+void ISBNBook::deleteBook(QString ISBN)
+{
+    int index = -1;
+    for (int i = 0; i < bookvector.size(); i++)
+        if (bookvector[i].ISBN == ISBN)
+        {
+            index = i;
+            break;
+        }
+    if (index == -1)
+    {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Внимание");
+        msgBox.setText("Книга с ISBN " + ISBN + " не найдена");
+        msgBox.setIcon(QMessageBox::Warning);
+        msgBox.exec();
+    }
+    else
+    {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Подтверждение действия");
+        msgBox.setText("Вы действительно хотите удалить книгу с ISBN " + ISBN);
+        msgBox.setInformativeText("Данное действие отменить нельзя");
+        msgBox.setIcon(QMessageBox::Question);
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setDefaultButton(QMessageBox::No);
+        QPushButton *buttonY = qobject_cast<QPushButton *>(msgBox.button(QMessageBox::Yes));
+        buttonY->setText("Да");
+        QPushButton *buttonN = qobject_cast<QPushButton *>(msgBox.button(QMessageBox::No));
+        buttonN->setText("Нет");
+        msgBox.setIcon(QMessageBox::Question);
+        if (msgBox.exec() == QMessageBox::Yes)
+        {
+            bookvector.remove(index);
+        }
+    }
 }

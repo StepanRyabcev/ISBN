@@ -9,17 +9,20 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    deletedialog.cpp \
     isbnbook.cpp \
     main.cpp \
     mainwindow.cpp \
     newdialog.cpp
 
 HEADERS += \
+    deletedialog.h \
     isbnbook.h \
     mainwindow.h \
     newdialog.h
 
 FORMS += \
+    deletedialog.ui \
     mainwindow.ui \
     newdialog.ui
 

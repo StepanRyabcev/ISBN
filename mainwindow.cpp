@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "newdialog.h"
+#include "deletedialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -27,5 +28,13 @@ void MainWindow::on_AddNew_clicked()
 void MainWindow::on_refresh_clicked()
 {
     ui->table->setModel(bookclass->getTable());
+}
+
+
+void MainWindow::on_delete_2_clicked()
+{
+    Deletedialog deldialog(bookclass);
+    QObject::connect(&deldialog, QDialog::accepted, this, MainWindow::on_refresh_clicked);
+    deldialog.exec();
 }
 
